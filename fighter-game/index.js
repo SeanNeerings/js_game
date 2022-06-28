@@ -189,10 +189,14 @@ function animate() {
   }
 
   //player1 jumping
-  if (player.velocity.y < 0) {
+  if (player.velocity.y < 0 && player.isJumping === false) {
     player.switchSprite("jump");
+	player.isJumping = true;
   } else if (player.velocity.y > 0) {
     player.switchSprite("fall");
+	player.isJumping = true;
+  } else if (player.velocity.y === 0) {
+	player.isJumping = false;
   }
 
   //player2 movement
@@ -209,8 +213,12 @@ function animate() {
   //player2 jumping
   if (player2.velocity.y < 0) {
     player2.switchSprite("jump");
+	player2.isJumping = true;
   } else if (player2.velocity.y > 0) {
     player2.switchSprite("fall");
+	player2.isJumping = true;
+  } else if (player.velocity.y === 0) {
+	player2.isJumping = false;
   }
 
   //detect for collision & player2 gets hit
@@ -276,7 +284,7 @@ window.addEventListener("keydown", (event) => {
         player.lastKey = "a";
         break;
       case "w":
-        player.velocity.y = -15;
+        player.jump();
         break;
       case " ":
         player.attack();
@@ -296,7 +304,7 @@ window.addEventListener("keydown", (event) => {
         player2.lastKey = "ArrowLeft";
         break;
       case "ArrowUp":
-        player2.velocity.y = -15;
+        player2.jump();
         break;
       case "ArrowDown":
         player2.attack();
